@@ -1,0 +1,159 @@
+{% load static%} 
+{% block content %}  
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'Staff_Entry_Details.css' %}" media="screen" type="text/css" />
+</head>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'>
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.3/jquery.min.js">
+</script>
+<div class="container bg-image">
+            <header>
+                <div class="head-title">
+                    <h1 id="title">St. Xavier's CollegeCollege in Tirunelveli, Tamil Nadu</h1>
+                    <b><p id="description" >STAFF DETAILS</p></b>
+                </div>
+            </header>
+            <main class="main-content">
+          <form id="survey-form" method="post" action="add" enctype="multipart/form-data">{% csrf_token %}
+             <div class="user-details">
+             			
+                        <!--Staff_details-->  
+                        <div class="form-content text-form">
+                          <center><b><u><label  class="details"  id="name-label"> Staff
+                            Information</label></u></b></center></div> 
+                        <div class="form-content text-form">
+                            <label  class="details" for="name" id="name-label"> Staff ID:</label>
+                            <input type="text"  id="id" name="Staff ID" placeholder="Enter your ID" required="">
+	     </div>
+             <div class="form-content text-form">
+                            <label class="details" for="lastname" id="lastname-label"> Staff Name:</label>
+                            <input type="text"  id="Name" name="Staff Name" placeholder="Enter your name" required="">
+            </div>
+                        <div class="form-content text-form">
+                            <label class="details" for="lastname" id="lastname-label">Staff Department :</label>
+                            <input  type="text" id="dep" name="Staff Department" placeholder="Enter your Department " required="">
+           </div>
+            <div class="form-content text-form">
+                            <label class="details" for="email" id="email-label">Email:</label>
+                            <input type="email"  id="Mail" name="Staff Mail_ID " placeholder="example@gmail.com" pattern=".+@gmail.com" required="">
+                       </div>             
+                       <div class="form-content text-form">
+                            <label class="details" for="email" id="email-label">Upload Your Photo:</label>              
+                            <input type="file" name="upload" id="file" accept="image/*">
+     
+        		</div>
+     	     		<!--Login_details-->
+              		<u><div class="form-content text-form">
+                           <center> <label  class="details"  id="name-label"> Login Information</label></center></u></div>
+                           <div class="form-content text-form">
+                          <label  class="details" for="name" id="name-label"> User Name:</label>
+                            <input type="text"  onblur="User_name()" id="User_Name"
+                             name="User_Name" placeholder="Enter your ID" required="">
+                          </div>
+	     		   <div class="form-content text-form">
+                            <label  class="details" for="name" id="name-label"> Password:</label>
+                          </div>
+                         <div class="input-group mb-3">
+  			<input type="password" id="password" minlength="6"
+  			maxlength="12" required="" name="User_Password"
+  			 class="form-control" placeholder="Enter your Password">
+  			<span class="input-group-text" id="basic-addon2">
+  			  <img  id="img1" src="{% static 'Images/eye_close.png' %} " alt="eye" 
+  			  height = "30" width = "30" onclick="Pass_show(1)" ></span>
+			</div>                                         
+	     		  <div class="form-content text-form">
+                            <label  class="details" for="name" id="name-label"> Retype-Password:</label></div>
+                            <div  id="re_pass_div" class="input-group mb-3">
+                            <input type="password" id="re_password" minlength="6"
+                            maxlength="12" name="User_Password"
+                            onblur="User_password()" class="form-control" 
+                            placeholder="Retype your Password" required="">
+                            <span class="input-group-text" id="basic-addon2">
+  			  <img  id="img2" src="{% static 'Images/eye_close.png' %} " alt="eye" 
+  			  height = "30" width = "30" onclick="Pass_show(2)" ></span>
+	     </div>
+        		<!--See Image Uploaded-->        
+          <div class="row">
+            {% if file_url %}
+            <h2 class="my-4">Photo Uploaded </h2>
+            <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+              <img src="{{ file_url }}" class="img-fluid">
+              <br>
+              <a class="btn btn-dark my-4" href="/">Return to Homepage</a>
+            {% else %}
+            
+            {% endif %}
+          </div>
+
+        </div>
+       <div class="form-content question-form">
+                            
+               <center><button type="submit" id="submit" class="btn btn-primary">Submit</button></center> 
+                        </div>
+                    </div>
+                </form>
+            </main>
+           <center> <footer class="end-content">
+                <p class="creator">Proudly made by <a href="#">MURALI</a>.</p>
+            </footer></center>
+        </div>  
+{% endblock %}
+{{ title|json_script:"title-data" }}
+<script>
+function User_name() {
+	var unclean = JSON.parse(document.getElementById('title-data').textContent);
+	usr_name=$("#User_Name").val();
+	if(unclean.includes(usr_name)){
+  		$( "#User_Name" ).after("<span id=1><p style='color:red'><b>User Name Exist</b></p></span>");
+  		$("#2").hide();
+  		}
+  	else{
+  		$( "#User_Name" ).after("<span id=2><p style='color:green'><b>Good To Go</b></p></span>");
+  		$("#1").hide();
+  		}
+}
+function User_password()
+{
+	password=$("#password").val();
+	re_password=$("#re_password").val();
+	if(password==re_password){
+  		$("#3").hide();
+  		}
+  		else{
+  		$( "#re_pass_div" ).after("<div id=3><p style='color:red'><b>Password UnMatched</b></p></div>");
+  		}
+}
+function Pass_show(x)
+{
+if(x==1)
+{
+if(document.getElementById("password").type == "password")
+{
+	$('#img1').attr('src',"{% static 'Images/eye_open.jpg' %} ");
+	document.getElementById("password").type = "text";	
+}
+else
+{
+	$('#img1').attr('src',"{% static 'Images/eye_close.png' %} ");
+	document.getElementById("password").type = "password";
+}
+}
+if(x==2)
+{
+if(document.getElementById("re_password").type == "password")
+{
+	$('#img2').attr('src',"{% static 'Images/eye_open.png' %} ");
+	document.getElementById("re_password").type = "text";	
+}
+else
+{
+	$('#img2').attr('src',"{% static 'Images/eye_close.png' %} ");
+	document.getElementById("re_password").type = "password";
+}
+}
+}
+</script>
+
+
